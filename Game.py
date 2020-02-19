@@ -1,11 +1,10 @@
 from flask import Flask
-import load_data
+import pandas as pd
 from Passenger import Passenger
 app = Flask(__name__)
 
-allStops = ()
-availableStops = ()
-unavailableStops = ()
+availableStops = pd.DataFrame()
+usedStops = pd.DataFrame()
 
 @app.route('/')
 def startGame():
@@ -19,16 +18,15 @@ def endGame():
 def generatePassengers():
     return 0
 
-@app.route('/readCSV')
-def readCSV():
-    name, x, y = load_data.showData()
-    return name + ': ' + x + ' , ' + y 
-    #TODO Populate allStops
+@app.route('/loadCSV')
+def loadCSV():
+    availableStops = pd.read_csv('data/stops.txt')
 
 # this return some kind of
 def generateStops():
-    #TODO grab random stop from all stops, add to available stops
-    lati = 0
-    longi = 0
-    #TODO remove from available stops add to unavailable stops
+    _stop = availableStops.sample(n=1)
+    usedStops.append(_stop)
+    availableStops.drop(_stop.index)
+    lati = str(row.stop_lat.values[0])
+    longi = str(row.stop_lon.values[0])
     return (lati, longi) # because long is a keyword don't get mad at me
