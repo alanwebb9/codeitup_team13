@@ -10,14 +10,13 @@ import random
 app = Flask(__name__)
 cors = CORS(app)
 
-availableStops = pd.DataFrame()
+availableStops = pd.read_csv('data/stops.txt')
 usedStops = pd.DataFrame()
 routes = Tuple[List[Stop], List[Bus]]  # ((stop1, stop2, stop3), bus1, bus2)
 
 
 @app.route('/', methods=["GET"])
 def startGame():
-    loadCSV()
     return 'game started'
 
 
@@ -36,10 +35,10 @@ def generatePassengers(stop):
     return 0
 
 
-@app.route('/loadCSV')
-def loadCSV():
-    global availableStops
-    availableStops = pd.read_csv('data/stops.txt')
+# @app.route('/loadCSV')
+# def loadCSV():
+#     global availableStops
+#     availableStops = pd.read_csv('data/stops.txt')
 
 @app.route('/generateStop')
 def generateStop():
@@ -52,4 +51,4 @@ def generateStop():
     
     lati = str(_stop.stop_lat.values[0])
     longi = str(_stop.stop_lon.values[0])
-    return lati + ', ' + longi # because long is a keyword don't get mad at me
+    return lati + ' , ' + longi # because long is a keyword don't get mad at me
