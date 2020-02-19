@@ -1,6 +1,7 @@
 .vscode/
 .pytest_cache/
 env/
+__pycache__/
 
 tags
 static
