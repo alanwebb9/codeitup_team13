@@ -4,12 +4,17 @@ from typing import List, Tuple
 from Passenger import Passenger
 from Stop import Stop
 from Bus import Bus
+from flask_cors import CORS
+
 app = Flask(__name__)
+cors = CORS(app)
 
 availableStops = pd.DataFrame()
 usedStops = pd.DataFrame()
 routes = Tuple[List[Stop], List[Bus]]  # ((stop1, stop2, stop3), bus1, bus2)
-@app.route('/')
+
+
+@app.route('/', methods=["GET"])
 def startGame():
     loadCSV()
     return 'game started'

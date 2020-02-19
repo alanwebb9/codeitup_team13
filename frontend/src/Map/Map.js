@@ -2,10 +2,17 @@ import React from "react";
 import { Map, Marker, Popup, TileLayer } from "react-leaflet";
 
 export default function MapComp() {
-  // const myMap = L.map('mapid', {
-  //   center: [37.7749, -122.4194],
-  //    zoom: 13
-  //  })
+  const getStops = () => {
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener("load", () => {
+      console.log(xhr.responseText);
+    });
+
+    xhr.open("GET", "http://localhost:5000/");
+    xhr.send();
+  };
+
+  getStops();
 
   const position = [51.505, -0.09];
   const map = (
