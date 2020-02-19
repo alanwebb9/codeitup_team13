@@ -1,12 +1,15 @@
-from flask import Flask
-import pandas as pd
+import json
+import random
 from typing import List, Tuple
-from Passenger import Passenger
-from Stop import Stop
-from Bus import Bus
+
+import pandas as pd
+from flask import Flask
 from flask_cors import CORS
 
-import random
+from Bus import Bus
+from Passenger import Passenger
+from Stop import Stop
+
 app = Flask(__name__)
 cors = CORS(app)
 
@@ -24,14 +27,15 @@ def startGame():
 def endGame():
     return 'game ended'
 
+
 def generatePassengers(stop):
     # random point
     # TODO may want to go back to itself, just remove stop from the possible route
     endStop = random.choice(random.choice(stop.routes))
     # start with stop and find route to endStop, each stop has variable adjacent
-    
+
     #passenger = Passenger(stop,route)
-    #Generates passenger, uncomment when route is set
+    # Generates passenger, uncomment when route is set
     return 0
 
 
@@ -48,10 +52,12 @@ def generateStop():
     _stop = availableStops.sample(n=1)
     usedStops = usedStops.append(_stop)
     availableStops = availableStops.drop(_stop.index)
-    
+
     lati = str(_stop.stop_lat.values[0])
     longi = str(_stop.stop_lon.values[0])
-    return lati + ' , ' + longi # because long is a keyword don't get mad at me
+    # because long is a keyword don't get mad at me
+    return json.dumps([float(lati), float(longi)])
+
 
 def defGraph(route):
     graph = dict()
@@ -59,14 +65,16 @@ def defGraph(route):
         graph[stop] = stop.adjacent
     return graph
 
+
 def find_path(graph, start, end, path=[]):
-        path = path + [start]
-        if start == end:
-            return path
-        if not graph.has_key(start):
-            return None
-        for node in graph[start]:
-            if node not in path:
-                newpath = find_path(graph, node, end, path)
-                if newpath: return newpath
+    path = path + [start]
+    if start == end:
+        return path
+    if not graph.has_key(start):
         return None
+    for node in graph[start]:
+        if node not in path:
+            newpath = find_path(graph, node, end, path)
+            if newpath:
+                return newpath
+    return None
