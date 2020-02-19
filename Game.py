@@ -20,8 +20,8 @@ def generatePassengers():
 
 @app.route('/readCSV')
 def readCSV():
-    x, y = load_data.showData()
-    return x + ' _ ' + y 
+    name, x, y = load_data.showData()
+    return name + ': ' + x + ' , ' + y 
 
 # this return some kind of
 def generateStops():
