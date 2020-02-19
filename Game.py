@@ -11,7 +11,7 @@ usedStops = pd.DataFrame()
 routes = Tuple[List[Stop],List[Bus]] #((stop1, stop2, stop3), bus1, bus2)
 @app.route('/')
 def startGame():
-    readCSV()
+    loadCSV()
     return 'game started'
 
 @app.route('/hi')
