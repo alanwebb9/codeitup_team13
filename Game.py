@@ -4,6 +4,7 @@ from typing import List, Tuple
 from Passenger import Passenger
 from Stop import Stop
 from Bus import Bus
+import random
 app = Flask(__name__)
 
 availableStops = pd.DataFrame()
@@ -18,7 +19,10 @@ def startGame():
 def endGame():
     return 'game ended'
 
-def generatePassengers():
+def generatePassengers(stop):
+    # random point
+    # TODO may want to go back to itself, just remove stop from the possible route
+    passenger = Passenger(stop,random.choice(random.choice(stop.routes)))
     return 0
 
 @app.route('/loadCSV')
