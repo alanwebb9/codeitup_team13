@@ -47,6 +47,7 @@
 }
 
 .score-header h2 {
+  padding: 25px;
   color: white;
   flex: 1;
 }
