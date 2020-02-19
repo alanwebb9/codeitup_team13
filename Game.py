@@ -14,7 +14,7 @@ app = Flask(__name__)
 cors = CORS(app)
 
 availableStops = pd.read_csv('data/stops.txt')
-usedStops = pd.DataFrame()
+usedStops = list()
 # ((stop1, stop2, stop3), bus1, bus2)
 routes = List[Tuple[List[Stop], List[Bus]]]
 
@@ -72,12 +72,11 @@ def generateStop():
     global usedStops
 
     _stop = availableStops.sample(n=1)
-    usedStops = usedStops.append(_stop)
     availableStops = availableStops.drop(_stop.index)
 
     lati = str(_stop.stop_lat.values[0])
     longi = str(_stop.stop_lon.values[0])
-    # because long is a keyword don't get mad at me
+    usedStops.append(Stop(random.randrange(5,10), lati, longi))
     return json.dumps([float(lati), float(longi)])
 
 
@@ -89,19 +88,13 @@ def gengraph(route):
 
 
 def find_path(graph, start, end, path=[]):
-        path = path + [start]
-        if start == end:
-            return path
-        if start not in graph:
-            return None
-        for node in graph[start]:
-            if node not in path:
-                newpath = find_path(graph, node, end, path)
-                if newpath: return newpath
+    path = path + [start]
+    if start == end:
+        return path
+    if start not in graph:
         return None
     for node in graph[start]:
         if node not in path:
             newpath = find_path(graph, node, end, path)
-            if newpath:
-                return newpath
+            if newpath: return newpath
     return None

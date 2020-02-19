@@ -7,9 +7,11 @@ class Stop:
     routes = list(list())
     adjacent = list()
 
-    def __init__(self, maxPass):
+    def __init__(self, maxPass, lati, longi):
         self.maxPass = maxPass
         self.adjacent = list()
+        self.lati = lati
+        self.longi = longi
 
     def tempAddAdj(self, stop):
         self.adjacent.append(stop)
