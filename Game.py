@@ -1,6 +1,5 @@
 from flask import Flask
 from typing import List, Tuple
-import load_data
 from Passenger import Passenger
 from Stop import Stop
 from Bus import Bus
@@ -9,8 +8,7 @@ app = Flask(__name__)
 allStops = ()
 availableStops = ()
 unavailableStops = ()
-routes = (Tuple[List[Stop], [List[Bus]]]) # ((stop1, stop2, stop3), bus1, bus2)
-
+routes = Tuple[List[Stop],List[Bus]] #((stop1, stop2, stop3), bus1, bus2)
 @app.route('/')
 def startGame():
     readCSV()
