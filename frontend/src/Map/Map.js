@@ -1,35 +1,38 @@
-import React from "react";
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import React, {Component} from 'react';
+import { Map, Marker, Popup, Polyline, TileLayer } from 'react-leaflet';
+import L from 'leaflet';
 
 export default function MapComp() {
-  const getStops = () => {
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener("load", () => {
-      console.log(xhr.responseText);
-    });
+  const mapbox_url =
+   "https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3F1cnJsaSIsImEiOiJjamhxY2lkeTcxOG9jMzdudTZkYm9jbmlkIn0.zvZPOE4XHex2E18F0FSdSg"
 
-    xhr.open("GET", "http://localhost:5000/");
-    xhr.send();
-  };
-
-  getStops();
-
-  const position = [51.505, -0.09];
+  const map_bounds = [
+    [51.360007, -10.743767],
+    [55.391440, -5.497318]
+  ]
+  
   const map = (
-    <Map center={position} zoom={13}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <Marker position={position}>
-        <Popup>
-          A pretty CSS3 popup.
-          <br />
-          Easily customizable.
-        </Popup>
-      </Marker>
-    </Map>
-  );
+  <Map minZoom={7} bounds={map_bounds} maxBounds={map_bounds}
+       ref={  (mapElm) => _getLeafletMapElement(mapElm) }>
+    <TileLayer
+      url={mapbox_url}
+      attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+    />
+  </Map>
+  )
 
-  return <div id="map-container">{map}</div>;
+  return (
+    <div id="map-container">
+      { map }
+    </div> 
+  )
+}
+
+function _getLeafletMapElement(mapElm) {
+  const elm = mapElm.leafletElement;
+  return elm;
+}
+
+function addCircleMarker(latLng) {
+  L.circleMarker(latLng).addTo(_getLeafletMapElement);
 }
