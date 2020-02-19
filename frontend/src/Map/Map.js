@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import L from "leaflet";
+import React, { useEffect, useRef, useState } from "react";
+import L, { marker } from "leaflet";
 
   const style = {
     width: "100%",
@@ -17,6 +17,8 @@ import L from "leaflet";
 function Map({ markerPosition }) {
   // create map
   const mapRef = useRef(null);
+  const [markers, setMarkers] = useState( [] );
+
   useEffect(() => {
     mapRef.current = L.map("map", {
       center: [53, -7],
@@ -36,25 +38,17 @@ function Map({ markerPosition }) {
   // add marker
   const markerRef = useRef(null);
   useEffect(() => {
-    if (markerRef.current) {
-      markerRef.current.setLatLng(markerPosition);
-    } else {
-      markerRef.current = L.marker(markerPosition).addTo(mapRef.current);
-    }
-  }, [markerPosition]);
+    console.log("map stop position: " +  markerPosition)
+    markerRef.current = L.marker(markerPosition).addTo(mapRef.current);
+    let new_state = markers.push(mapRef);
+    // setMarkers(new_state)
 
-  // request stop location
-  useEffect( () => {
-    const fetchProperty = () => {
-      const request = new XMLHttpRequest();
-      request.addEventListener("load", () => {
-        console.log(request.responseText);
-      });
-      request.open("GET", "http://127.0.0.1:5000/generateStop");
-      request.send();
-    };
-    fetchProperty();
-  }, [])
+    // if(markers.length > 2) {
+      // draw line between currentRef and previous Ref
+      // L.polyline([markerRef, markers[markers.length-1]]).addTo(mapRef)
+    // }
+  
+  }, [markerPosition]);
 
   return <div id="map" style={style} />;
 }

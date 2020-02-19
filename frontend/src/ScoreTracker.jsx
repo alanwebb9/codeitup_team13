@@ -8,6 +8,9 @@ export default function ScoreTracker() {
     setInterval(() => {
       setTimer(timer++);
     }, 1000);
+    setInterval(() => {
+      setScore(score++);
+    }, 30);
   }, []);
 
   return (
