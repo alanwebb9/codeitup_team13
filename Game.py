@@ -1,11 +1,14 @@
 from flask import Flask
 import pandas as pd
+from typing import List, Tuple
 from Passenger import Passenger
+from Stop import Stop
+from Bus import Bus
 app = Flask(__name__)
 
 availableStops = pd.DataFrame()
 usedStops = pd.DataFrame()
-
+routes = Tuple[List[Stop],List[Bus]] #((stop1, stop2, stop3), bus1, bus2)
 @app.route('/')
 def startGame():
     readCSV()
