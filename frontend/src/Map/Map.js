@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { Map, Marker, Popup, Polyline, TileLayer } from 'react-leaflet';
