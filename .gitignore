@@ -1,5 +1,9 @@
 .vscode/
 .pytest_cache/
+env/
+
+__pycache__/
+*.pyc
 
 tags
 static
@@ -205,3 +209,4 @@ Temporary Items
 
 
 # End of https://www.gitignore.io/api/osx
+__pycache__/Game.cpython-37.pyc
