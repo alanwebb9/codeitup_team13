@@ -33,7 +33,8 @@ def loadCSV():
     global availableStops
     availableStops = pd.read_csv('data/stops.txt')
 
-def generateStops():
+@app.route('/generateStop')
+def generateStop():
     global availableStops
     global usedStops
 
