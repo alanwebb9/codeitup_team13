@@ -1,8 +1,10 @@
-import React, {Component, useState, useEffect} from 'react';
-import { Map, Marker, Popup, Polyline, TileLayer } from 'react-leaflet';
-import L from 'leaflet';
+import React, { useEffect, useRef } from "react";
+import L from "leaflet";
 
-export default function MapComp() {
+  const style = {
+    width: "100%",
+    height: "300px"
+  };
 
   const mapbox_url =
    "https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3F1cnJsaSIsImEiOiJjamhxY2lkeTcxOG9jMzdudTZkYm9jbmlkIn0.zvZPOE4XHex2E18F0FSdSg"
@@ -11,10 +13,12 @@ export default function MapComp() {
     [51.360007, -10.743767],
     [55.391440, -5.497318]
   ]
-  
+
+function Map({ markerPosition }) {
+  // create map
+  const mapRef = useRef(null);
   useEffect(() => {
-    // create map
-    L.map('map', {
+    mapRef.current = L.map("map", {
       center: [53, -7],
       zoom: 7,
       minZoom: 7,
@@ -24,69 +28,35 @@ export default function MapComp() {
         L.tileLayer(mapbox_url, {
           attribution:
             '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }),
+        })
       ]
     });
   }, []);
 
-  return (
-    <div id="map"></div> 
-  )
+  // add marker
+  const markerRef = useRef(null);
+  useEffect(() => {
+    if (markerRef.current) {
+      markerRef.current.setLatLng(markerPosition);
+    } else {
+      markerRef.current = L.marker(markerPosition).addTo(mapRef.current);
+    }
+  }, [markerPosition]);
+
+  // request stop location
+  useEffect( () => {
+    const fetchProperty = () => {
+      const request = new XMLHttpRequest();
+      request.addEventListener("load", () => {
+        console.log(request.responseText);
+      });
+      request.open("GET", "http://127.0.0.1:5000/generateStop");
+      request.send();
+    };
+    fetchProperty();
+  }, [])
+
+  return <div id="map" style={style} />;
 }
 
-
-
-function _getLeafletMapElement(mapElm) {
-  // setMapElm(mapElm.leafletElement);
-  // return elm;
-}
-
-function addCircleMarker(latLng) {
-  L.circleMarker(latLng).addTo(_getLeafletMapElement);
-}
-
-// export default class MapComp extends React.Component {
-
-//   componenetDidMount() {
-//     this.mapbox_url =
-//       "https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3F1cnJsaSIsImEiOiJjamhxY2lkeTcxOG9jMzdudTZkYm9jbmlkIn0.zvZPOE4XHex2E18F0FSdSg"
-
-//     this.map_center = [53.428822, -7.759530]
-    
-//     this.map_bounds = [
-//       [51.360007, -10.743767],
-//       [55.391440, -5.497318]
-//     ]
-
-//     this.map = (
-//       <Map minZoom={7} bounds={this.map_bounds} maxBounds={this.map_bounds}
-//           ref={  (mapElm) => this._getLeafletMapElement(mapElm) }>
-//         <TileLayer
-//           url={this.mapbox_url}
-//           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-//         />
-//       </Map>
-//     )
-
-//     this.leafletelement = this.map.Map.leafletElement
-//   }
-
-//   _getLeafletMapElement = (mapElm) => {
-//     this.leafletMapElm = mapElm.leafletElement;
-//   }
-
-//   render() {
-//     // return (<div id="map-container"> { this.map } </div> 
-//     return (
-//         <div class="leaflet-container">{this.map}</div>
-//         // <Map center={this.map_center} zoom={13} minZoom={7} bounds={this.map_bounds} maxBounds={this.map_bounds}
-//         //   ref={  (mapElm) => this._getLeafletMapElement(mapElm) }>
-//         //   <TileLayer
-//         //     url={this.mapbox_url}
-//         //     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-//         //   />
-//         // </Map>
-//     )
-    
-//   }
-// }
+export default Map;
