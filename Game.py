@@ -52,4 +52,4 @@ def generateStop():
     
     lati = str(_stop.stop_lat.values[0])
     longi = str(_stop.stop_lon.values[0])
-    return (lati, longi) # because long is a keyword don't get mad at me
+    return lati + ', ' + longi # because long is a keyword don't get mad at me
