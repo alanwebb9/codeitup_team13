@@ -1,4 +1,20 @@
+from Passenger import Passenger
+
 class Stop:
 
-    def __init__(self):
-        pass
+    maxPass = 5 #default maximum passenger
+    currentPass = ()
+
+    def __init__(self, maxPass):
+        self.maxPass = maxPass
+
+    def addPass(self):
+        self.currentPass += 1
+
+    def removePass(self, passenger:Passenger):
+        self.currentPass.remove(passenger) # Bug? Does python find the correct passenger here?
+
+    def addPass(self, passenger:Passenger):
+        self.currentPass.add(passenger)
+
+    
