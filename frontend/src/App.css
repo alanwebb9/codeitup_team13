@@ -43,12 +43,12 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  position: sticky;
 }
 
 .score-header h2 {
   color: white;
   flex: 1;
-  padding: 2rem;
 }
 
 .score-header .timer {
@@ -57,4 +57,12 @@
 
 .score-header .score {
   text-align: end;
+}
+
+/* Map Component Style */
+#map-container #leaflet-container {
+  height: 1000px;
+}
+.leaflet-container {
+  min-height: 90vh;
 }
