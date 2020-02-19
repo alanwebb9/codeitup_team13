@@ -10,6 +10,7 @@ app = Flask(__name__)
 availableStops = pd.DataFrame()
 usedStops = pd.DataFrame()
 routes = Tuple[List[Stop], List[Bus]]  # ((stop1, stop2, stop3), bus1, bus2)
+
 @app.route('/')
 def startGame():
     loadCSV()
@@ -31,9 +32,6 @@ def generatePassengers(stop):
 def loadCSV():
     global availableStops
     availableStops = pd.read_csv('data/stops.txt')
-
-# this return some kind of
-
 
 def generateStops():
     global availableStops
