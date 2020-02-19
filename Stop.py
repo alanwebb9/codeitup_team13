@@ -10,6 +10,9 @@ class Stop:
     def __init__(self, maxPass):
         self.maxPass = maxPass
 
+    def tempAddAdj(self, stop):
+        self.adjacent.append(stop)
+
     def removePass(self, passenger:Passenger):
         self.currentPass.remove(passenger) # Bug? Does python find the correct passenger here?
 
