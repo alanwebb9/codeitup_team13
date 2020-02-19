@@ -2,6 +2,9 @@
 .pytest_cache/
 env/
 
+__pycache__/
+*.pyc
+
 tags
 static
 # Created by https://www.gitignore.io/api/node

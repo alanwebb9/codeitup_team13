@@ -6,6 +6,7 @@ from Stop import Stop
 from Bus import Bus
 from flask_cors import CORS
 
+import random
 app = Flask(__name__)
 cors = CORS(app)
 
@@ -24,22 +25,31 @@ def startGame():
 def endGame():
     return 'game ended'
 
-
-def generatePassengers():
+def generatePassengers(stop):
+    # random point
+    # TODO may want to go back to itself, just remove stop from the possible route
+    endStop = random.choice(random.choice(stop.routes))
+    # start with stop and find route to endStop, each stop has variable adjacent
+    
+    #passenger = Passenger(stop,route)
+    #Generates passenger, uncomment when route is set
     return 0
 
 
 @app.route('/loadCSV')
 def loadCSV():
+    global availableStops
     availableStops = pd.read_csv('data/stops.txt')
 
-# this return some kind of
+@app.route('/generateStop')
+def generateStop():
+    global availableStops
+    global usedStops
 
-
-def generateStops():
     _stop = availableStops.sample(n=1)
-    usedStops.append(_stop)
-    availableStops.drop(_stop.index)
-    lati = str(row.stop_lat.values[0])
-    longi = str(row.stop_lon.values[0])
-    return (lati, longi)  # because long is a keyword don't get mad at me
+    usedStops = usedStops.append(_stop)
+    availableStops = availableStops.drop(_stop.index)
+    
+    lati = str(_stop.stop_lat.values[0])
+    longi = str(_stop.stop_lon.values[0])
+    return (lati, longi) # because long is a keyword don't get mad at me
