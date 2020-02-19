@@ -1,4 +1,5 @@
 from flask import Flask
+import load_data
 from Passenger import Passenger
 app = Flask(__name__)
 
@@ -17,9 +18,10 @@ def endGame():
 def generatePassengers():
     return 0
 
+@app.route('/readCSV')
 def readCSV():
-    #TODO: populate available stops
-    pass
+    name, x, y = load_data.showData()
+    return name + ': ' + x + ' , ' + y 
 
 # this return some kind of
 def generateStops():
