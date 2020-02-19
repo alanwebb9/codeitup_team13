@@ -12,13 +12,31 @@ cors = CORS(app)
 
 availableStops = pd.read_csv('data/stops.txt')
 usedStops = pd.DataFrame()
-routes = Tuple[List[Stop], List[Bus]]  # ((stop1, stop2, stop3), bus1, bus2)
+routes = List[Tuple[List[Stop], List[Bus]]]  # ((stop1, stop2, stop3), bus1, bus2)
 
 
 @app.route('/', methods=["GET"])
 def startGame():
     return 'game started'
 
+@app.route('/joetest')
+def test():
+    stop1 = Stop(5)
+    stop2 = Stop(4)
+    stop3 = Stop(3)
+    stop4 = Stop(1)
+    stop1.tempAddAdj(stop2)
+    stop1.tempAddAdj(stop3)
+    stop2.tempAddAdj(stop1)
+    stop2.tempAddAdj(stop3)
+    stop3.tempAddAdj(stop1)
+    stop3.tempAddAdj(stop2)
+    stop4.tempAddAdj(stop3)
+    route = (stop1,stop2,stop3)
+    graph = gengraph(route)
+    print(graph.get(stop1))
+    return "go away"
+    #find_path(graph, stop1, stop4)
 
 @app.route('/hi')
 def endGame():
@@ -53,10 +71,12 @@ def generateStop():
     longi = str(_stop.stop_lon.values[0])
     return lati + ';' + longi # because long is a keyword don't get mad at me
 
-def defGraph(route):
+def gengraph(route):
     graph = dict()
     for stop in route:
+        print ("setting" + graph[stop] + " as key")
         graph[stop] = stop.adjacent
+        print (" and " + stop.adjecnt + " as value")
     return graph
 
 def find_path(graph, start, end, path=[]):
