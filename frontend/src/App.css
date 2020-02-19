@@ -49,6 +49,7 @@
 .score-header h2 {
   color: white;
   flex: 1;
+  margin: 2rem;
 }
 
 .score-header .timer {
