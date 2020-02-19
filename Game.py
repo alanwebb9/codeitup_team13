@@ -52,3 +52,21 @@ def generateStop():
     lati = str(_stop.stop_lat.values[0])
     longi = str(_stop.stop_lon.values[0])
     return lati + ' , ' + longi # because long is a keyword don't get mad at me
+
+def defGraph(route):
+    graph = dict()
+    for stop in route:
+        graph[stop] = stop.adjacent
+    return graph
+
+def find_path(graph, start, end, path=[]):
+        path = path + [start]
+        if start == end:
+            return path
+        if not graph.has_key(start):
+            return None
+        for node in graph[start]:
+            if node not in path:
+                newpath = find_path(graph, node, end, path)
+                if newpath: return newpath
+        return None
