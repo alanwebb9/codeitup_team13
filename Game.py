@@ -31,10 +31,11 @@ def test():
     stop2.tempAddAdj(stop3)
     stop3.tempAddAdj(stop1)
     stop3.tempAddAdj(stop2)
+    stop3.tempAddAdj(stop4)
     stop4.tempAddAdj(stop3)
-    route = (stop1,stop2,stop3)
-    graph = gengraph(route)
-    print(graph.get(stop1))
+    route = (stop1,stop2,stop3,stop4)
+    print(find_path(gengraph(route), stop1, stop4))
+    #print(graph.get(stop1))
     return "go away"
     #find_path(graph, stop1, stop4)
 
@@ -74,16 +75,14 @@ def generateStop():
 def gengraph(route):
     graph = dict()
     for stop in route:
-        print ("setting" + graph[stop] + " as key")
         graph[stop] = stop.adjacent
-        print (" and " + stop.adjecnt + " as value")
     return graph
 
 def find_path(graph, start, end, path=[]):
         path = path + [start]
         if start == end:
             return path
-        if not graph.has_key(start):
+        if start not in graph:
             return None
         for node in graph[start]:
             if node not in path:

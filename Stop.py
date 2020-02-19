@@ -9,6 +9,7 @@ class Stop:
 
     def __init__(self, maxPass):
         self.maxPass = maxPass
+        self.adjacent = list()
 
     def tempAddAdj(self, stop):
         self.adjacent.append(stop)
