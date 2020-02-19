@@ -23,7 +23,11 @@ def endGame():
 def generatePassengers(stop):
     # random point
     # TODO may want to go back to itself, just remove stop from the possible route
-    passenger = Passenger(stop,random.choice(random.choice(stop.routes)))
+    endStop = random.choice(random.choice(stop.routes))
+    # start with stop and find route to endStop, each stop has variable adjacent
+    
+    #passenger = Passenger(stop,route)
+    #Generates passenger, uncomment when route is set
     return 0
 
 
